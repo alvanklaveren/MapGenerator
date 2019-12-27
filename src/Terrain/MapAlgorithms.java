@@ -2,6 +2,7 @@ package Terrain;
 
 import Terrain.TerrainMap;
 
+import java.awt.*;
 import java.util.Random;
 
 public class MapAlgorithms {
@@ -128,5 +129,72 @@ public class MapAlgorithms {
         return image;
     }
 
+    public static int[][] blend(int[][] image1, int[][] image2) {
+
+        if(image1.length != image2.length || image1[0].length != image2[0].length){
+            throw new RuntimeException("image sizes do not match");
+        }
+
+        int[][] image = new int[image1.length][image1[0].length];
+
+        for(int y=0; y < image.length -1; y++){
+            for(int x=0; x < image[0].length -1; x++){
+                image[y][x] = blend(image1[y][x], image2[y][x]);
+            }
+        }
+
+        return image;
+    }
+
+    public static int blend(int i0, int i1) {
+        Color c0 = new Color(i0, true);
+        Color c1 = new Color(i1, true);
+
+        Color c = blend(c0, c1);
+        return c.getRGB();
+    }
+
+    public static Color blend(Color c0, Color c1) {
+        double totalAlpha = c0.getAlpha() + c1.getAlpha();
+        double weight0 = c0.getAlpha() / totalAlpha;
+        double weight1 = c1.getAlpha() / totalAlpha;
+
+        double r = weight0 * c0.getRed() + weight1 * c1.getRed();
+        double g = weight0 * c0.getGreen() + weight1 * c1.getGreen();
+        double b = weight0 * c0.getBlue() + weight1 * c1.getBlue();
+        double a = Math.max(c0.getAlpha(), c1.getAlpha());
+
+        return new Color((int) r, (int) g, (int) b, (int) a);
+    }
+
+    public static int[][] replaceZeroAlpha(int[][] image1, int[][] image2) {
+
+        if(image1.length != image2.length || image1[0].length != image2[0].length){
+            throw new RuntimeException("image sizes do not match");
+        }
+
+        int[][] image = new int[image1.length][image1[0].length];
+
+        for(int y=0; y < image.length -1; y++){
+            for(int x=0; x < image[0].length -1; x++){
+                image[y][x] = replaceZeroAlpha(image1[y][x], image2[y][x]);
+            }
+        }
+
+        return image;
+    }
+
+    public static int replaceZeroAlpha(int i0, int i1) {
+        Color c0 = new Color(i0, true);
+        Color c1 = new Color(i1, true);
+
+        Color c = replaceZeroAlpha(c0, c1);
+        return c.getRGB();
+    }
+
+
+    public static Color replaceZeroAlpha(Color c0, Color c1) {
+        return c0.getAlpha() == 0 ? c1 : c0;
+    }
 }
 

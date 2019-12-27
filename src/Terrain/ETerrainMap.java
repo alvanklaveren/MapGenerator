@@ -8,11 +8,15 @@ import ColorPalette.*;
 public enum ETerrainMap {
 
     BLACK_AND_WHITE(Color.BLACK, Color.WHITE, 255, 10, 2, null),
-    CARTOON(Color.BLUE, Color.WHITE, 255, 12, 3, new CartoonPalette()),
-    DETAILED_ARCTIC(Color.BLUE, Color.WHITE, 255, 10, 4, null),
+    CARTOON(Color.BLUE, Color.WHITE, 255, 10, 5, new CartoonPalette()),
+    DETAILED_ARCTIC(Color.BLUE, Color.WHITE, 255, 10, 0, new TransparantSeaPalette()),
+    DETAILED_FOREST(Color.BLACK, Color.GREEN, 255, 10, 0, new TransparantSeaPalette()),
+    DETAILED_DESERT(Color.DARK_GRAY, new Color(200,154,102), 255, 10, 0, new TransparantSeaPalette()),
     SIMPLE_ARCTIC(Color.BLUE, Color.WHITE, 255, 11, 10, new FixedSeaPalette()),
     SIMPLE_FOREST(Color.GREEN, Color.WHITE, 255, 10, 10, new FixedSeaPalette()),
-    CLOUDS(Color.BLACK, Color.WHITE, 255, 10, 50, null),
+    SIMPLE_DESERT( new Color(200,154,102), new Color(251,225,182), 255, 10, 10, new FixedSeaPalette()),
+    CLOUDS(Color.BLACK, Color.WHITE, 255, 9, 60, null),
+    SEA(new Color(20,20,100), Color.BLUE, 255, 8, 0, null),
     ;
 
     Color gradientStart;

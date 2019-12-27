@@ -54,8 +54,9 @@ public class TerrainMap {
         this.noise = noise;
     }
 
-    public float[][] getImage(){
-        float[][] image = new float[getWidth()][getHeight()];
+    public int[][] getImage(){
+
+        int[][] image = new int[getWidth()][getHeight()];
 
         for (int y = 0; y < getHeight(); y++) {
             for (int x = 0; x < getWidth(); x++) {

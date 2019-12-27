@@ -1,10 +1,9 @@
 
-import ColorPalette.*;
 import Terrain.ETerrainMap;
+import Terrain.MapAlgorithms;
 import Terrain.TerrainMap;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -12,13 +11,13 @@ import java.awt.image.BufferedImage;
 
 public class MapPanel extends JPanel{
 
-    private float[][] image;
+    private int[][] image;
 
     private MouseListener mouseListener;
 
     public MapPanel()
     {
-        int width = 800, height = 800;
+        int width = 1024, height = 768;
         BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         ImageIcon icon = new ImageIcon( bi );
         add( new JLabel(icon) );
@@ -59,23 +58,25 @@ public class MapPanel extends JPanel{
 
     }
 
-    static float[][] generateTerrainImage(int width, int height){
+    static int[][] generateTerrainImage(int width, int height){
 
+        TerrainMap background = ETerrainMap.SEA.generateMap(width, height);
+        TerrainMap map = ETerrainMap.DETAILED_FOREST.generateMap(width, height);
+        TerrainMap clouds = ETerrainMap.CLOUDS.generateMap(width, height);
 
-        TerrainMap map = new TerrainMap(width, height, Color.BLUE, Color.WHITE, 255, 10, 1);
-        //ColorPalette palette = new CartoonPalette();
-        //map.setFixedPalette(palette);
+        int[][] image = MapAlgorithms.replaceZeroAlpha(map.getImage(), background.getImage());
 
-        map = ETerrainMap.CLOUDS.generateMap(width, height);
+        //image = MapAlgorithms.blend(image, clouds.getImage());
 
-        return map.getImage();
+        return image;
+
         //        Terrain.TerrainMap terrainMap2 = terrainMap.clone();
         //        terrainMap2.setGradientStart(Color.BLUE);
         //        terrainMap2.setGradientEnd(Color.GREEN);
         //        return Terrain.MapAlgorithms.blendImages(terrainMap, terrainMap2, terrainMap.getNoise());
     }
 
-    static void drawImage(BufferedImage bi, float[][] image){
+    static void drawImage(BufferedImage bi, int[][] image){
         for (int y = 0; y < bi.getHeight(); y++) {
             for (int x = 0; x < bi.getWidth(); x++) {
                 int colorValue = (int) image[x][y];

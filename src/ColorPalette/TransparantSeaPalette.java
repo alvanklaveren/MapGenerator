@@ -2,7 +2,7 @@ package ColorPalette;
 
 import java.awt.*;
 
-public class FixedSeaPalette extends ColorPalette{
+public class TransparantSeaPalette extends ColorPalette{
 
     private int alpha = 255;
     private int level = 2;
@@ -14,7 +14,7 @@ public class FixedSeaPalette extends ColorPalette{
 
         switch(modifier) {
             case 0:
-                color = Color.BLUE;
+                color = new Color(0, 0, 0, 0 /*fully transparent*/);
                 break;
         }
 

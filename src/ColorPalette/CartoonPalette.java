@@ -15,10 +15,12 @@ public class CartoonPalette extends ColorPalette{
                 color = Color.BLUE;
                 break;
             case 10:
-                color = Color.YELLOW;
+                //color = Color.YELLOW;
+                color = new Color(232,206,36);
                 break;
             case 11: case 12: case 13: case 14:
-                color = Color.GREEN;
+                //color = Color.GREEN;
+                color = new Color(45,140,33);
                 break;
             case 15: case 16:
                 color = Color.GRAY;
