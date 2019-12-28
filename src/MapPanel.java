@@ -59,9 +59,10 @@ public class MapPanel extends JPanel{
 
     static int[][] generateTerrainImage(int width, int height){
 
-        //return ETerrainMap.Realistic.generateMap(width, height).getImage();
+        return ETerrainMap.Realistic.generateMap(width, height).getImage();
+        //return ETerrainMap.BlackAndWhite.generateMap(width, height).blend(ETerrainMap.Clouds);
         //return ETerrainMap.Realistic.generateMap(width, height).blend(ETerrainMap.Clouds);
-        return ETerrainMap.DetailedArctic.generateMap(width, height).setBackGround(ETerrainMap.Sea).getImage();
+        //return ETerrainMap.DetailedArctic.generateMap(width, height).setBackGround(ETerrainMap.Sea).getImage();
 
     }
 

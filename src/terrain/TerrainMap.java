@@ -16,15 +16,12 @@ public class TerrainMap {
     private int[][] backgroundImage;
 
     private AbstractColorPalette colorPalette = null;
-    private Color gradientStart, gradientEnd;
 
 
-    public TerrainMap(int width, int height, Color gradientStart, Color gradientEnd, int alpha, int octave, int level){
+    public TerrainMap(int width, int height, int alpha, int octave, int level){
 
         float[][] baseNoise = TerrainUtils.generateWhiteNoise(width, height);
         this.noise = TerrainUtils.GeneratePerlinNoise(baseNoise, octave);
-        this.gradientStart = gradientStart;
-        this.gradientEnd = gradientEnd;
         this.alpha = alpha;
         this.octave = octave;
         this.level = level;
@@ -37,9 +34,6 @@ public class TerrainMap {
         Color c = (colorPalette == null) ? EColorPalette.Default.generate(this).getColor(noise[y][x]) : colorPalette.getColor(noise[y][x]);
         return Math.round(c.getRGB());
     }
-
-    public Color getGradientStart(){ return gradientStart; }
-    public Color getGradientEnd(){ return gradientEnd; }
 
     public float[][] getNoise(){
         return noise;

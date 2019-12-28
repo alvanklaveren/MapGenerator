@@ -7,6 +7,15 @@ import java.awt.*;
 public abstract class AbstractColorPalette {
 
     protected int mapWidth, mapHeight;
+    protected Color gradientStart, gradientEnd;
+
+    public AbstractColorPalette(TerrainMap terrainMap, Color gradientStart, Color gradientEnd){
+
+        this.mapWidth = terrainMap.getHeight();
+        this.mapHeight = terrainMap.getWidth();
+        this.gradientStart = gradientStart;
+        this.gradientEnd = gradientEnd;
+    };
 
     public AbstractColorPalette(TerrainMap terrainMap){
 

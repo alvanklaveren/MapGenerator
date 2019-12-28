@@ -36,10 +36,10 @@ public enum ETerrainMap {
     }
 
     public TerrainMap generateMap(int width, int height) {
-        TerrainMap map = new TerrainMap(width, height, gradientStart, gradientEnd, alpha, octave, level);
+        TerrainMap map = new TerrainMap(width, height, alpha, octave, level);
 
         if(eColorPalette != null) {
-            AbstractColorPalette colorPalette = eColorPalette.generate(map);
+            AbstractColorPalette colorPalette = eColorPalette.generate(map, gradientStart, gradientEnd);
             map.setColorPalette(colorPalette);
         }
 

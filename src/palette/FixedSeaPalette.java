@@ -11,8 +11,19 @@ public class FixedSeaPalette extends AbstractColorPalette {
     public FixedSeaPalette(TerrainMap terrainMap){
 
         super(terrainMap);
-        terrainPalette = EColorPalette.Default.generate(terrainMap);
+
+        this.gradientStart = Color.BLACK;
+        this.gradientEnd = Color.WHITE;
+        terrainPalette = EColorPalette.Default.generate(terrainMap, gradientStart, gradientEnd);
     };
+
+    public FixedSeaPalette(TerrainMap terrainMap, Color gradientStart, Color gradientEnd){
+
+        super(terrainMap);
+        this.gradientStart = gradientStart;
+        this.gradientEnd = gradientEnd;
+    }
+
 
     public Color getColor(float noise){
 

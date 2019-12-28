@@ -15,7 +15,19 @@ public class TransparentSeaPalette extends AbstractColorPalette {
     public TransparentSeaPalette(TerrainMap terrainMap){
 
         super(terrainMap);
+
+        this.gradientStart = Color.BLACK;
+        this.gradientEnd = Color.WHITE;
         terrainPalette = EColorPalette.Default.generate(terrainMap);
+    };
+
+    public TransparentSeaPalette(TerrainMap terrainMap, Color gradientStart, Color gradientEnd){
+
+        super(terrainMap);
+
+        this.gradientStart = gradientStart;
+        this.gradientEnd = gradientEnd;
+        terrainPalette = EColorPalette.Default.generate(terrainMap, gradientStart, gradientEnd);
     };
 
     public Color getColor(float noise){

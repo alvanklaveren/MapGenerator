@@ -6,18 +6,24 @@ import java.awt.*;
 
 public class DefaultPalette extends AbstractColorPalette {
 
-    Color gradientStart, gradientEnd;
     int level, alpha;
 
     public DefaultPalette(TerrainMap terrainMap){
 
         super(terrainMap);
-        gradientStart = terrainMap.getGradientStart();
-        gradientEnd = terrainMap.getGradientEnd();
         level = 0;
         alpha = 255;
 
     };
+
+    public DefaultPalette(TerrainMap terrainMap, Color gradientStart, Color gradientEnd){
+
+        super(terrainMap);
+        level = 0;
+        alpha = 255;
+        this.gradientStart = gradientStart;
+        this.gradientEnd = gradientEnd;
+    }
 
     public Color getColor(float noise) {
 
