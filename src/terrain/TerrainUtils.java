@@ -1,23 +1,21 @@
-package Terrain;
-
-import Terrain.TerrainMap;
+package terrain;
 
 import java.awt.*;
 import java.util.Random;
 
-public class MapAlgorithms {
+public class TerrainUtils {
 
     public static float[][] generateWhiteNoise(int width, int height)
     {
         Random random = new Random(0); //Seed to 0 for testing
         random.setSeed(System.currentTimeMillis());
-        float[][] noise = new float[width][height];
+        float[][] noise = new float[height][width];
 
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
-                noise[i][j] = (float) random.nextDouble() % 1;
+                noise[j][i] = (float) random.nextDouble() % 1;
             }
         }
 
@@ -29,7 +27,7 @@ public class MapAlgorithms {
         int width = baseNoise.length;
         int height = baseNoise[0].length;
 
-        float[][] smoothNoise = new float[width][height];
+        float[][] smoothNoise = new float[height][width];
 
         int samplePeriod = 1 << octave; // calculates 2 ^ k
         float sampleFrequency = 1.0f / samplePeriod;
@@ -57,7 +55,7 @@ public class MapAlgorithms {
                         baseNoise[sample_i1][sample_j1], horizontal_blend);
 
                 //final blend
-                smoothNoise[i][j] = interpolate(top, bottom, vertical_blend);
+                smoothNoise[j][i] = interpolate(top, bottom, vertical_blend);
             }
         }
 
@@ -78,7 +76,7 @@ public class MapAlgorithms {
             smoothNoise[i] = GenerateSmoothNoise(baseNoise, i);
         }
 
-        float[][] perlinNoise = new float[width][height];
+        float[][] perlinNoise = new float[height][width];
         float amplitude = 1.0f;
         float totalAmplitude = 0.0f;
 
@@ -90,7 +88,7 @@ public class MapAlgorithms {
 
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
-                    perlinNoise[i][j] += smoothNoise[octave][i][j] * amplitude;
+                    perlinNoise[j][i] += smoothNoise[octave][j][i] * amplitude;
                 }
             }
         }
@@ -98,7 +96,7 @@ public class MapAlgorithms {
         //normalisation
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                perlinNoise[i][j] /= totalAmplitude;
+                perlinNoise[j][i] /= totalAmplitude;
             }
         }
 
@@ -111,18 +109,16 @@ public class MapAlgorithms {
 
     public static float[][] blendImages(TerrainMap map1, TerrainMap map2, float[][] noise)
     {
-        int width = map1.getWidth();
-        int height = map1.getHeight();
+        int width = map1.getHeight();
+        int height = map1.getWidth();
 
-        float[][] image = new float[width][height];
+        float[][] image = new float[height][width];
 
         int alpha = 255;
 
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                image[x][y] = interpolate(map1.get(x,y), map2.get(x,y), noise[x][y]);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                image[y][x] = interpolate(map1.getPixel(x,y), map2.getPixel(x,y), noise[y][x]);
             }
         }
 
@@ -196,5 +192,6 @@ public class MapAlgorithms {
     public static Color replaceZeroAlpha(Color c0, Color c1) {
         return c0.getAlpha() == 0 ? c1 : c0;
     }
+
 }
 
