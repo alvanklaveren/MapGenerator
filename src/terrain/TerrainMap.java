@@ -3,17 +3,20 @@ package terrain;
 
 import palette.AbstractColorPalette;
 import palette.EColorPalette;
+import roads.AbstractRoad;
 
 import java.awt.Color;
 
 public class TerrainMap {
 
-    private float[][] noise;
+    private float[][] heightMap;
     private int alpha;
     private int octave;
     private int level;
 
     private int[][] backgroundImage;
+    private int[][] roadImage;
+    private AbstractRoad road;
 
     private AbstractColorPalette colorPalette = null;
 
@@ -21,7 +24,7 @@ public class TerrainMap {
     public TerrainMap(int width, int height, int alpha, int octave, int level){
 
         float[][] baseNoise = TerrainUtils.generateWhiteNoise(width, height);
-        this.noise = TerrainUtils.GeneratePerlinNoise(baseNoise, octave);
+        this.heightMap = TerrainUtils.GeneratePerlinNoise(baseNoise, octave);
         this.alpha = alpha;
         this.octave = octave;
         this.level = level;
@@ -31,24 +34,24 @@ public class TerrainMap {
 
     public int getPixel(int x, int y){
 
-        Color c = (colorPalette == null) ? EColorPalette.Default.generate(this).getColor(noise[y][x]) : colorPalette.getColor(noise[y][x]);
+        Color c = (colorPalette == null) ? EColorPalette.Default.generate(this).getColor(heightMap[y][x]) : colorPalette.getColor(heightMap[y][x]);
         return Math.round(c.getRGB());
     }
 
-    public float[][] getNoise(){
-        return noise;
+    public float[][] getHeightMap(){
+        return heightMap;
     }
 
-    public void setNoise(float[][] noise){
-        this.noise = noise;
+    public void setHeightMap(float[][] heightMap){
+        this.heightMap = heightMap;
     }
 
     public int getHeight(){
-        return noise.length;
+        return heightMap.length;
     }
 
     public int getWidth(){
-        return noise[0].length;
+        return heightMap[0].length;
     }
 
     public int[][] getImage(){
@@ -61,7 +64,10 @@ public class TerrainMap {
             }
         }
 
-        return (backgroundImage == null) ? image : TerrainUtils.replaceZeroAlpha(image, backgroundImage);
+        image = (roadImage == null) ? image : TerrainUtils.replaceZeroAlpha(roadImage, image);
+        image = (backgroundImage == null) ? image : TerrainUtils.replaceZeroAlpha(image, backgroundImage);
+
+        return image;
     }
 
     /**
@@ -82,7 +88,26 @@ public class TerrainMap {
      * @param eTerrainMap
      */
     public TerrainMap setBackGround(ETerrainMap eTerrainMap){
+
         this.backgroundImage = eTerrainMap.generateMap(getHeight(), getWidth()).getImage();
+        return this;
+    }
+
+    /**
+     * roads can be added using a Road object. Roads contain a grid of black transparent color, with roads.
+     * We can replace the transparent black with the values on the terrain map
+     *
+     * @param road - a child class extending from class AbstractRoad
+     */
+    public TerrainMap setRoad(AbstractRoad road){
+
+        this.roadImage = road.generate();
+        return this;
+    }
+
+    public TerrainMap setRoad(AbstractRoad road, int numberOfRoads, int roadLength){
+
+        this.roadImage = road.generate(numberOfRoads, roadLength);
         return this;
     }
 

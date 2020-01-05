@@ -47,10 +47,10 @@ public class RealisticPalette extends AbstractColorPalette {
                 color = getGradientColor(new Color(200,154,112), new Color(251,225,182), modifiedPercentage, noise);
                 break;
             case 4:
-                color = getGradientColor(new Color(251,225,182), Color.GRAY, modifiedPercentage, noise);
+                color = getGradientColor(new Color(251,225,182), Color.DARK_GRAY, modifiedPercentage, noise);
                 break;
             case 5:
-               color = getGradientColor(Color.GRAY, Color.LIGHT_GRAY, modifiedPercentage, noise);
+               color = getGradientColor(Color.DARK_GRAY, Color.GRAY, modifiedPercentage, noise);
                break;
             case 6:
                 color = getGradientColor(Color.LIGHT_GRAY, Color.WHITE, modifiedPercentage, noise);

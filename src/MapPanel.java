@@ -1,4 +1,5 @@
 
+import roads.SandRoad;
 import terrain.ETerrainMap;
 import terrain.TerrainMap;
 
@@ -53,13 +54,22 @@ public class MapPanel extends JPanel{
         this.addMouseListener(mouseListener);
 
         image = generateTerrainImage(width, height);
+
         drawImage(bi, image);
 
     }
 
     static int[][] generateTerrainImage(int width, int height){
 
-        return ETerrainMap.Realistic.generateMap(width, height).getImage();
+        TerrainMap map = ETerrainMap.Realistic.generateMap(width, height);
+        //map.setBackGround(ETerrainMap.Sea);
+
+        SandRoad roads = new SandRoad(map.getHeightMap());
+
+
+        map.setRoad(roads, 3, 2000);
+
+        return map.getImage();
         //return ETerrainMap.BlackAndWhite.generateMap(width, height).blend(ETerrainMap.Clouds);
         //return ETerrainMap.Realistic.generateMap(width, height).blend(ETerrainMap.Clouds);
         //return ETerrainMap.DetailedArctic.generateMap(width, height).setBackGround(ETerrainMap.Sea).getImage();
